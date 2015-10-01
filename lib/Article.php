@@ -6,32 +6,34 @@
 
 namespace Chalk\Article;
 
-use Chalk\Backend;
-use Chalk\Chalk;
-use Chalk\Event;
-use Chalk\InfoList;
-use Chalk\Module;
-use Closure;
-use Coast\Request;
-use Coast\Response;
-use Coast\Router;
+use Chalk\Core,
+    Chalk\Core\Content,
+    Doctrine\Common\Collections\ArrayCollection;
 
-class Article extends Module
-{   
-    const VERSION = '0.5.0';
+/**
+ * @Entity
+*/
+class Article extends Content
+{
+    public static $chalkSingular = 'Article';
+    public static $chalkPlural   = 'Articles';
+    public static $chalkIcon     = 'newspaper';
 
-    public function frontendInit()
-    {
-        
-    }
-    
-    public function backendInit()
-    {
-        
-    }
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $summary;
 
-    public function core_frontendInitNode($node, $content, $info, $params)
-    {
+    /**
+     * @Column(type="text")
+     */
+    protected $body;
         
+    public function searchableContent()
+    {
+        return array_merge(parent::searchableContent(), [
+            $this->summary,
+            $this->body,
+        ]);
     }
 }
