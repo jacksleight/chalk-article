@@ -23,7 +23,7 @@ class Module extends ChalkModule
     public function init()
     {
         $this
-            ->entityDir($this->name(), 'lib');
+            ->entityDir($this->name());
     }
     
     public function frontendInit()
@@ -48,6 +48,7 @@ class Module extends ChalkModule
                     return $list
                         ->item($this->name('article'), []);
                 }
+                return $list;
             });
     }
 
