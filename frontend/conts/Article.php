@@ -7,27 +7,12 @@
 namespace Chalk\Article\Frontend\Controller;
 
 use Chalk\Chalk;
-use Coast\Controller\Action;
+use Chalk\Core\Controller\Delegate;
 use Coast\Request;
 use Coast\Response;
 
-class Article extends Action
+class Article extends Delegate
 {
-    public function preDispatch(Request $req, Response $res)
-    {
-        $page = $this->em('core_page')
-            ->id($req->page, [
-                'isPublished' => isset($this->session->data('__Chalk\Backend')->user)
-                    ? null
-                    : true,
-            ]);
-        if (!$page) {
-            return false;
-        }
-        $req->page       = $page;
-        $req->view->page = $page;
-    }
-
 	public function index(Request $req, Response $res)
 	{}
 }

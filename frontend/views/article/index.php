@@ -1,6 +1,6 @@
 <?php $this->outer('/layouts/page/default', [
-    'title' => $page->name,
+    'title' => $content->name,
 ]) ?>
 <?php $this->block('primary') ?>
 
-<h1><?= $page->name ?></h1>
+<h1><?= $content->name ?></h1>
