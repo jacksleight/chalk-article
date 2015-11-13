@@ -40,12 +40,22 @@ class Module extends ChalkModule
             ->backendViewDir($this->name());
 
         $this
+            ->backendRoute(
+                $this->name('index'),
+                Router::METHOD_ALL,
+                $this->path("{controller}?/{action}?/{id}?"), [
+                    'group'  => $this->name(),
+                    'action' => 'index',
+                    'id'     => null,
+                ]);
+
+        $this
             ->backendHookListen('core_contentList', function(InfoList $list) {
                 if ($list->filter() == 'core_main') {
-                    return $list
+                    $list
                         ->item($this->name('article'), []);
                 } else if ($list->filter() == 'core_link') {
-                    return $list
+                    $list
                         ->item($this->name('article'), []);
                 }
                 return $list;

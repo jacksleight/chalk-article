@@ -7,6 +7,13 @@
 	'rows'		=> 20,
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
+	'type'		=> 'input_content',
+	'entity'	=> $content,
+	'name'		=> 'image',
+	'label'		=> 'Image',
+	'filter'	=> 'core_image',
+), 'core') ?>
+<?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',
 	'entity'	=> $content,
 	'name'		=> 'summary',

@@ -28,6 +28,30 @@ class Article extends Content
      * @Column(type="text")
      */
     protected $body;
+
+    /**
+     * @ManyToOne(targetEntity="\Chalk\Core\User")
+     * @JoinColumn(nullable=true)
+     */
+    protected $author;
+
+    /**
+     * @ManyToOne(targetEntity="\Chalk\Core\File")
+     * @JoinColumn(nullable=true)
+     */
+    protected $image;
+
+    /**
+     * @ManyToMany(targetEntity="\Chalk\Article\Category", inversedBy="articles")
+     */
+    protected $categories;
+
+    public function __construct()
+    {   
+        parent::__construct();
+
+        $this->categories = new ArrayCollection();
+    }
         
     public function searchableContent()
     {
