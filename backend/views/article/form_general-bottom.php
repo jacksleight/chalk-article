@@ -1,3 +1,8 @@
+<?php
+if ($content->isNew() && !isset($content->author)) {
+	$content->author = $this->session->data('__Chalk\Backend')->user;
+}
+?>
 <?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',
 	'entity'	=> $content,

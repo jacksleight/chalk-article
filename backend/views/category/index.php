@@ -63,6 +63,13 @@ $tags = $this->em($info)
 		</table>
 	</div>
 	<div class="footer">
+		<ul class="toolbar toolbar-right">
+			<li>
+				<button class="btn btn-positive icon-ok modal-close">
+					Done
+				</button>
+			</li>
+		</ul>
 		<?= $this->render('/element/form-input', [
 		    'type'      => 'paginator',
 		    'entity'    => $index,

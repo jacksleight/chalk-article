@@ -20,6 +20,16 @@ class Article extends Content
     {
         $query = parent::build($params);
 
+        $params = $params + [
+            'categories' => null,
+        ];
+
+        if (isset($params['categories']) && count($params['categories'])) {
+            $query
+                ->andWhere(":categories MEMBER OF {$this->alias()}.categories")
+                ->setParameter('categories', $params['categories']);
+        }
+
         $query
             ->addSelect("ac")
             ->leftJoin("a.categories", "ac");

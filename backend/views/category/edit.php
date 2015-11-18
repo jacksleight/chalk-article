@@ -5,6 +5,14 @@
 
 <form action="<?= $this->url->route() ?>" method="post" class="flex-col" data-modal-size="800x800">
 	<div class="header">
+		<ul class="toolbar toolbar-right">
+			<li><a href="<?= $this->url([
+				'action' => 'index',
+				'id'	 => null,
+			]) ?>" class="btn btn-out btn-lighter icon-arrow-left">
+				Back
+			</a></li>
+		</ul>
 		<h1>
 			<?php if (!$category->isNew()) { ?>
 				<?= $category->name ?>
@@ -30,10 +38,6 @@
 	</div>
 	<fieldset class="footer">
 		<ul class="toolbar toolbar-right">
-			<li>
-				<a href="Ca">Cancel</a>
-				or
-			</li>
 			<li>
 				<button class="btn btn-positive icon-ok">
 					Save <?= $info->singular ?>
