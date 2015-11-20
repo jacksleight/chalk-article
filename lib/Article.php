@@ -60,4 +60,22 @@ class Article extends Content
             $this->body,
         ]);
     }
+    
+    public function extract($limit = 60)
+    {
+        $value = strip_tags($this->body);
+        if (str_word_count($value, 0) > $limit) {
+            $words = str_word_count($value, 2);
+            $pos   = array_keys($words);
+            $value = substr($value, 0, $pos[$limit] - 1) . '…';
+        }
+        return $value;
+    }
+    
+    public function description($limit = 60)
+    {
+        return isset($this->summary)
+            ? strip_tags($this->summary)
+            : $this->extract($limit);
+    }
 }

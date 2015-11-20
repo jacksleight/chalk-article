@@ -31,9 +31,33 @@ class Article extends Content
         }
 
         $query
-            ->addSelect("ac")
-            ->leftJoin("a.categories", "ac");
+            ->addSelect("ac", "ai", "aa")
+            ->leftJoin("a.categories", "ac")
+            ->leftJoin("a.image", "ai")
+            ->leftJoin("a.author", "aa");
 
         return $query;
+    }
+
+    public function categories(array $params = array(), array $opts = array())
+    {
+        $repo  = $this->_em->getRepository('Chalk\Article\Category');
+        $query = $repo->build($params);
+
+        $query
+            ->select("
+                c,
+                COUNT(ca) AS contentCount
+            ")
+            ->innerJoin("c.articles", "ca")
+            ->groupBy("c.id");
+
+        $this->publishableQueryModifier($query, $params, 'ca');
+        $this->searchableQueryModifier($query, $params, 'ca');
+
+        $query = $repo->prepare($query, [
+            'hydrate' => \Chalk\Repository::HYDRATE_ARRAY,
+        ] + $opts);
+        return $repo->fetch($query);
     }
 }

@@ -31,6 +31,16 @@ class Module extends ChalkModule
         $this
             ->frontendControllerNspace($this->name())
             ->frontendViewDir($this->name());
+
+        $this
+            ->frontendUrlResolver($this->name('article'), function($article, $info) {
+                return $this->frontend->url->route([
+                    'year'      => $article->publishDate->format('Y'),
+                    'month'     => $article->publishDate->format('m'),
+                    'day'       => $article->publishDate->format('d'),
+                    'article'   => $article->slug,
+                ], $this->name("main_view"), true);
+            });
     }
     
     public function backendInit()
@@ -65,16 +75,48 @@ class Module extends ChalkModule
     public function core_frontendInitNode($name, $node, $content, $params)
     {
         switch ($name) {
-            case 'list':
-                $primary = $this->name("list_{$content['id']}");
+            case 'main':
+                $primary = $this->name("main");
                 $this
                     ->frontendRoute(
-                        $primary,
+                        "{$primary}",
                         Router::METHOD_ALL,
                         "{$node['path']}",
                         $params + [
                             'controller' => "article",
                             'action'     => 'index',
+                        ])
+                    ->frontendRoute(
+                        "{$primary}_category",
+                        Router::METHOD_ALL,
+                        "{$node['path']}/categories/{category}",
+                        $params + [
+                            'controller' => "article",
+                            'action'     => 'category',
+                        ])
+                    ->frontendRoute(
+                        "{$primary}_tag",
+                        Router::METHOD_ALL,
+                        "{$node['path']}/tags/{tag}",
+                        $params + [
+                            'controller' => "article",
+                            'action'     => 'tag',
+                        ])
+                    ->frontendRoute(
+                        "{$primary}_archive",
+                        Router::METHOD_ALL,
+                        "{$node['path']}/{year:\d+}/{month:\d+}?/{day:\d+}?",
+                        $params + [
+                            'controller' => "article",
+                            'action'     => 'archive',
+                        ])
+                    ->frontendRoute(
+                        "{$primary}_view",
+                        Router::METHOD_ALL,
+                        "{$node['path']}/{year:\d+}/{month:\d+}/{day:\d+}/{article}",
+                        $params + [
+                            'controller' => "article",
+                            'action'     => 'view',
                         ]);
                 return $primary;
             break;

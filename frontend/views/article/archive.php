@@ -10,7 +10,3 @@
         'article' => $article,
     ]) ?>
 <?php } ?>
-
-<?= $this->render('archive-list') ?>
-<?= $this->render('category-list') ?>
-<?= $this->render('tag-list') ?>

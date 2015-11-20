@@ -3,14 +3,10 @@
 ]) ?>
 <?php $this->block('primary') ?>
 
-<h1><?= $content->name ?></h1>
+<h1><?= $tag->name ?></h1>
 
 <?php foreach ($articles as $article) { ?>
     <?= $this->render('short', [
         'article' => $article,
     ]) ?>
 <?php } ?>
-
-<?= $this->render('archive-list') ?>
-<?= $this->render('category-list') ?>
-<?= $this->render('tag-list') ?>
