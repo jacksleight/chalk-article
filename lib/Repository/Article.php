@@ -41,23 +41,21 @@ class Article extends Content
 
     public function categories(array $params = array(), array $opts = array())
     {
-        $repo  = $this->_em->getRepository('Chalk\Article\Category');
-        $query = $repo->build($params);
-
-        $query
+        $query = $this->build($params + [
+                'sort' => ["ac.name"],
+            ])
+            ->resetDQLParts(['select', 'from', 'join'])
             ->select("
-                c,
-                COUNT(ca) AS contentCount
+                ac,
+                COUNT(a) AS contentCount
             ")
-            ->innerJoin("c.articles", "ca")
-            ->groupBy("c.id");
+            ->from("Chalk\Article\Category", "ac")
+            ->innerJoin("ac.articles", "a", "WITH", "a INSTANCE OF {$this->_entityName}")
+            ->groupBy("ac.id");
 
-        $this->publishableQueryModifier($query, $params, 'ca');
-        $this->searchableQueryModifier($query, $params, 'ca');
-
-        $query = $repo->prepare($query, [
+        $query = $this->prepare($query, [
             'hydrate' => \Chalk\Repository::HYDRATE_ARRAY,
         ] + $opts);
-        return $repo->fetch($query);
+        return $this->fetch($query);
     }
 }

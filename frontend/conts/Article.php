@@ -10,9 +10,17 @@ use Chalk\Chalk;
 use Chalk\Core\Controller\Delegate;
 use Coast\Request;
 use Coast\Response;
+use Coast\Feed;
 
 class Article extends Delegate
 {
+    public function preDispatch(Request $req, Response $res)
+    {
+        parent::preDispatch($req, $res);
+
+        $req->view->head .= '<link rel="alternate" type="application/atom+xml" href="' . $this->url->route([], "article_main_feed", true) . '" title="' . "{$this->home['name']} {$req->content->name}" . '">';
+    }
+
     public function index(Request $req, Response $res)
     {
         $articles = $this->em('article_article')->all([
@@ -39,6 +47,7 @@ class Article extends Delegate
         $max->modify("+1 {$type} -1 second");
         $archive = (object) [
             'type' => $type,
+            'date' => $min,
             'min'  => $min,
             'max'  => $max,
         ];
@@ -95,5 +104,26 @@ class Article extends Delegate
     }
 
     public function feed(Request $req, Response $res)
-    {}
+    {
+        $articles = $this->em('article_article')->all([
+            'limit' => 10,
+        ]);
+
+        $feed = new Feed(
+            "{$this->home['name']} {$req->content->name}",
+            $this->url->route([], "article_main", true),
+            "{$this->chalk->config->name}",
+            $articles[0]->publishDate);
+
+        foreach ($articles as $article) {
+            $feed->add(
+                $article->name,
+                $this->url($article),
+                $article->publishDate,
+                $article->description,
+                $this->parser->parse($article->body));
+        }
+
+        return $res->xml($feed->toXml(), 'atom');
+    }
 }

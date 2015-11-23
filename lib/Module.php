@@ -87,6 +87,14 @@ class Module extends ChalkModule
                             'action'     => 'index',
                         ])
                     ->frontendRoute(
+                        "{$primary}_feed",
+                        Router::METHOD_ALL,
+                        "{$node['path']}/feed",
+                        $params + [
+                            'controller' => "article",
+                            'action'     => 'feed',
+                        ])
+                    ->frontendRoute(
                         "{$primary}_category",
                         Router::METHOD_ALL,
                         "{$node['path']}/categories/{category}",

@@ -1,12 +1,13 @@
-<?php $this->outer('/layouts/page/default', [
-    'title' => $content->name,
-]) ?>
+<?php
+$title  = "{$tag->name} {$content->name}";
+$config = $this->chalk->config->layoutScripts;
+$layout = $config[0] . "/default";
+$this->outer($layout, [
+    'title' => $title,
+], $config[1]);
+?>
 <?php $this->block('primary') ?>
 
-<h1><?= $tag->name ?></h1>
+<h1><?= $title ?></h1>
 
-<?php foreach ($articles as $article) { ?>
-    <?= $this->render('short', [
-        'article' => $article,
-    ]) ?>
-<?php } ?>
+<?= $this->inner('article-list') ?>

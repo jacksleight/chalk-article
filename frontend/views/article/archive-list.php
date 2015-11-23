@@ -1,5 +1,5 @@
 <?php
-$years = $this->em('article_article')->publishableYears();
+$years = $this->em('article_article')->publishYears();
 ?>
 <ul>
     <?php foreach ($years as $year) { ?>
