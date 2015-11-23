@@ -4,7 +4,7 @@ $formats = [
     'month' => 'F Y',
     'year'  => 'Y',
 ];
-$title  = "{$archive->date->format($formats[$archive->type])} {$content->name}";
+$title  = "{$this->ck->date($archive->date, $formats[$archive->type])} {$content->name}";
 $config = $this->chalk->config->layoutScripts;
 $layout = $config[0] . "/default";
 $this->outer($layout, [
