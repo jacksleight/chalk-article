@@ -43,10 +43,11 @@ class Module extends ChalkModule
 
         $this
             ->frontendUrlResolver($this->name('article'), function($article, $info) {
+                $date = $this->frontend->date(isset($article->publishDate) ? $article->publishDate : new \DateTime('today'));
                 return $this->frontend->url->route([
-                    'year'      => $article->publishDate->format('Y'),
-                    'month'     => $article->publishDate->format('m'),
-                    'day'       => $article->publishDate->format('d'),
+                    'year'      => $date->format('Y'),
+                    'month'     => $date->format('m'),
+                    'day'       => $date->format('d'),
                     'article'   => $article->slug,
                 ], $this->name("main_view"), true);
             });

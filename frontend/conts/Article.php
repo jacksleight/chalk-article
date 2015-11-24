@@ -115,14 +115,9 @@ class Article extends Delegate
 
     public function view(Request $req, Response $res)
     {
-        $min = new \DateTime("{$req->year}-{$req->month}-{$req->day}");
-        $max = clone $min;
-        $max->modify('+1 day -1 second');
-
         $article = $this->em($this->module->name('article'))->one([
-            'slugs'          => [$req->article],
-            'publishDateMin' => $min,
-            'publishDateMax' => $max,
+            'slugs'       => [$req->article],
+            'isPublished' => isset($this->session->data('__Chalk\Backend')->user) ? null : true,
         ]);
         if (!$article) {
             return false;
@@ -147,7 +142,7 @@ class Article extends Delegate
             $feed->add(
                 $article->name,
                 $this->url($article),
-                $article->publishDate,
+                $this->date($article->publishDate),
                 $article->description($this->module->option('extractLength')),
                 $this->parser->parse($article->body));
         }

@@ -1,3 +1,3 @@
 <p><small>
-    <?= $this->ck->date($article->publishDate, 'jS F Y') ?>
+    <?= $this->ck->date(isset($article->publishDate) ? $article->publishDate : new \DateTime('today'))->format('jS F Y') ?>
 </small></p>
