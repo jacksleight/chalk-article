@@ -1,10 +1,7 @@
 <?php
-$title  = "{$tag->name} {$content->name}";
-$config = $this->chalk->config->layoutScripts;
-$layout = $config[0] . "/default";
-$this->outer($layout, [
-    'title' => $title,
-], $config[1]);
+$this->outer('/layouts/html', [
+    'title' => $title = "{$tag->name} {$content->name}",
+], '__Chalk__core');
 ?>
 <?php $this->block('primary') ?>
 

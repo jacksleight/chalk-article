@@ -4,12 +4,9 @@ $formats = [
     'month' => 'F Y',
     'year'  => 'Y',
 ];
-$title  = "{$this->ck->date($archive->date, $formats[$archive->type])} {$content->name}";
-$config = $this->chalk->config->layoutScripts;
-$layout = $config[0] . "/default";
-$this->outer($layout, [
-    'title' => $title,
-], $config[1]);
+$this->outer('/layouts/html', [
+    'title' => $title = "{$this->ck->date($archive->date, $formats[$archive->type])} {$content->name}",
+], '__Chalk__core');
 ?>
 <?php $this->block('primary') ?>
 

@@ -20,6 +20,15 @@ class Module extends ChalkModule
 {   
     const VERSION = '0.5.0';
 
+    protected $_options = [
+        'indexLimit'    => 5,
+        'archiveLimit'  => 10,
+        'categoryLimit' => 10,
+        'tagLimit'      => 10,
+        'feedLimit'     => 10,
+        'extractLength' => 60,
+    ];
+
     public function init()
     {
         $this

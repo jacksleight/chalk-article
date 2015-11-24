@@ -1,12 +1,12 @@
 <?php
-$years = $this->em('article_article')->publishYears();
+$years = $this->em($this->ck->module->name('article'))->publishYears();
 ?>
 <ul>
     <?php foreach ($years as $year) { ?>
         <li>
             <a href="<?= $this->ck->url->route([
                 'year' => $year['date']->format('Y'),
-            ], 'article_main_archive', true) ?>">
+            ], $this->ck->module->name('main_archive'), true) ?>">
                 <?= $year['date']->format('Y') ?>
                 (<?= $year['contentCount'] ?>)
             </a>
@@ -15,7 +15,7 @@ $years = $this->em('article_article')->publishYears();
                     <li><a href="<?= $this->ck->url->route([
                         'year'  => $year['date']->format('Y'),
                         'month' => $year['date']->format('m'),
-                    ], 'article_main_archive', true) ?>">
+                    ], $this->ck->module->name('main_archive'), true) ?>">
                         <?= $month['date']->format('F') ?>
                         (<?= $month['contentCount'] ?>)
                     </a></li>

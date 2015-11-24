@@ -1,10 +1,15 @@
 <?php
-$title  = "{$content->name}";
-$config = $this->chalk->config->layoutScripts;
-$layout = $config[0] . "/default";
-$this->outer($layout, [
-    'title' => $title,
-], $config[1]);
+$this->outer('/layouts/html', [
+    'title' => $title = "{$content->name}",
+    'links' => [
+        [
+            'rel'   => 'alternate',
+            'type'  => 'application/atom+xml',
+            'href'  => $this->ck->url->route([], $this->ck->module('main_feed'), true),
+            'title' => "{$this->ck->home['name']} {$req->content->name}",
+        ],
+    ],
+], '__Chalk__core');
 ?>
 <?php $this->block('primary') ?>
 

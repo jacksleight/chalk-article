@@ -6,7 +6,7 @@
         </small></p>
     </header>
     <p>
-        <?= $article->description ?>
+        <?= $article->description($this->ck->module->option('extractLength')) ?>
         <a href="<?= $url ?>" title="<?= $article->name ?>">→</a>
     </p>
 </article>

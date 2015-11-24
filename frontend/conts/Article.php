@@ -11,23 +11,25 @@ use Chalk\Core\Controller\Delegate;
 use Coast\Request;
 use Coast\Response;
 use Coast\Feed;
+use Chalk\Repository;
 
 class Article extends Delegate
 {
-    public function preDispatch(Request $req, Response $res)
-    {
-        parent::preDispatch($req, $res);
-
-        $req->view->head .= '<link rel="alternate" type="application/atom+xml" href="' . $this->url->route([], "article_main_feed", true) . '" title="' . "{$this->home['name']} {$req->content->name}" . '">';
-    }
-
     public function index(Request $req, Response $res)
     {
-        $articles = $this->em('article_article')->all([
-            'limit' => 5,
-        ]);
+        $limit = $this->module->option('indexLimit');
+        $page  = $req->page ?: 1;
+        $articles = $this->em($this->module->name('article'))->all([
+            'limit' => $limit,
+            'page'  => $page,
+        ], [], Repository::FETCH_ALL_PAGED);
 
-        $req->view->articles = $articles;
+        $req->view->articles   = $articles;
+        $req->view->pagination = (object) [
+            'limit' => $limit,
+            'page'  => (int) $page,
+            'pages' => (int) ceil($articles->count() / $limit),
+        ];
     }
 
     public function archive(Request $req, Response $res)
@@ -45,44 +47,70 @@ class Article extends Delegate
             $type = 'year';
         }
         $max->modify("+1 {$type} -1 second");
-        $archive = (object) [
+
+        $limit = $this->module->option('archiveLimit');
+        $page  = $req->page ?: 1;
+        $articles = $this->em($this->module->name('article'))->all([
+            'publishDateMin' => $min,
+            'publishDateMax' => $max,
+            'limit'          => $limit,
+            'page'           => $page,
+        ], [], Repository::FETCH_ALL_PAGED);
+
+        $req->view->articles   = $articles;
+        $req->view->archive    = (object) [
             'type' => $type,
             'date' => $min,
             'min'  => $min,
             'max'  => $max,
         ];
-
-        $articles = $this->em('article_article')->all([
-            'publishDateMin' => $min,
-            'publishDateMax' => $max,
-        ]);
-
-        $req->view->archive  = $archive;
-        $req->view->articles = $articles;
+        $req->view->pagination = (object) [
+            'limit' => $limit,
+            'page'  => (int) $page,
+            'pages' => (int) ceil($articles->count() / $limit),
+        ];
     }
 
     public function category(Request $req, Response $res)
     {
-        $category = $this->em('article_category')->slug($req->category);
+        $category = $this->em($this->module->name('category'))->slug($req->category);
 
-        $articles = $this->em('article_article')->all([
+        $limit = $this->module->option('categoryLimit');
+        $page  = $req->page ?: 1;
+        $articles = $this->em($this->module->name('article'))->all([
             'categories' => [$category],
-        ]);
+            'limit'      => $limit,
+            'page'       => $page,
+        ], [], Repository::FETCH_ALL_PAGED);
 
-        $req->view->category = $category;
-        $req->view->articles = $articles;
+        $req->view->articles   = $articles;
+        $req->view->category   = $category;
+        $req->view->pagination = (object) [
+            'limit' => $limit,
+            'page'  => (int) $page,
+            'pages' => (int) ceil($articles->count() / $limit),
+        ];
     }
 
     public function tag(Request $req, Response $res)
     {
         $tag = $this->em('core_tag')->slug($req->tag);
 
-        $articles = $this->em('article_article')->all([
-            'tags' => [$tag],
-        ]);
+        $limit = $this->module->option('tagLimit');
+        $page  = $req->page ?: 1;
+        $articles = $this->em($this->module->name('article'))->all([
+            'tags'  => [$tag],
+            'limit' => $limit,
+            'page'  => $page,
+        ], [], Repository::FETCH_ALL_PAGED);
 
-        $req->view->tag      = $tag;
-        $req->view->articles = $articles;
+        $req->view->articles   = $articles;
+        $req->view->tag        = $tag;
+        $req->view->pagination = (object) [
+            'limit' => $limit,
+            'page'  => (int) $page,
+            'pages' => (int) ceil($articles->count() / $limit),
+        ];
     }
 
     public function view(Request $req, Response $res)
@@ -91,7 +119,7 @@ class Article extends Delegate
         $max = clone $min;
         $max->modify('+1 day -1 second');
 
-        $article = $this->em('article_article')->one([
+        $article = $this->em($this->module->name('article'))->one([
             'slugs'          => [$req->article],
             'publishDateMin' => $min,
             'publishDateMax' => $max,
@@ -105,8 +133,8 @@ class Article extends Delegate
 
     public function feed(Request $req, Response $res)
     {
-        $articles = $this->em('article_article')->all([
-            'limit' => 10,
+        $articles = $this->em($this->module->name('article'))->all([
+            'limit' => $this->module->option('feedLimit'),
         ]);
 
         $feed = new Feed(
@@ -120,7 +148,7 @@ class Article extends Delegate
                 $article->name,
                 $this->url($article),
                 $article->publishDate,
-                $article->description,
+                $article->description($this->module->option('extractLength')),
                 $this->parser->parse($article->body));
         }
 

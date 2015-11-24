@@ -3,6 +3,6 @@
     '@type'         => 'Article',
     'headline'      => $article->name,
     'datePublished' => $article->publishDate->format(DATE_ISO8601),
-    'description'   => $article->description,
+    'description'   => $article->description($this->ck->module->option('extractLength')),
     'image'         => isset($article->image) ? $this->url->file($article->image->file)->toString() : null,
 ]) ?></script>

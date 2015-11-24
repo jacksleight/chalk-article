@@ -7,7 +7,7 @@
 			'entity'	=> $content,
 			'name'		=> 'categories',
 			'label'		=> 'Categories',
-		    'values'    => $this->em($this->module()->name('category'))->all(),
+		    'values'    => $this->em($this->module->name('category'))->all(),
 		), 'core') ?>
 		<?= $this->render('/element/form-item', array(
 		    'type'      => 'input_tag',

@@ -19,7 +19,7 @@ class Category extends Repository
     {
         $query = parent::build($params);
 
-        $this->searchableQueryModifier($query, $params);
+        $this->searchable_modify($query, $params);
 
         return $query;
     }

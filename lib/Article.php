@@ -61,21 +61,21 @@ class Article extends Content
         ]);
     }
     
-    public function extract($limit = 60)
+    public function extract($length)
     {
         $value = strip_tags($this->body);
-        if (str_word_count($value, 0) > $limit) {
+        if (str_word_count($value, 0) > $length) {
             $words = str_word_count($value, 2);
             $pos   = array_keys($words);
-            $value = substr($value, 0, $pos[$limit] - 1) . '…';
+            $value = substr($value, 0, $pos[$length] - 1) . '…';
         }
         return $value;
     }
     
-    public function description($limit = 60)
+    public function description($length)
     {
         return isset($this->summary)
             ? strip_tags($this->summary)
-            : $this->extract($limit);
+            : $this->extract($length);
     }
 }

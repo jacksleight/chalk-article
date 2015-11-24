@@ -1,13 +1,10 @@
 <?php
-$title  = "{$article->name}";
-$config = $this->chalk->config->layoutScripts;
-$layout = $config[0] . "/default";
-$this->outer($layout, [
-    'title' => $title,
+$this->outer('/layouts/html', [
+    'title' => $title = "{$article->name}",
     'metas' => [
-        'description' => $article->description,
+        'description' => $article->description($this->ck->module->option('extractLength')),
     ],
-], $config[1]);
+], '__Chalk__core');
 ?>
 <?php $this->block('primary') ?>
 
