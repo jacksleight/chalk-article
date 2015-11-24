@@ -142,7 +142,7 @@ class Article extends Delegate
             $feed->add(
                 $article->name,
                 $this->url($article),
-                $this->date($article->publishDate),
+                $this->app->date($article->publishDate),
                 $article->description($this->module->option('extractLength')),
                 $this->parser->parse($article->body));
         }
