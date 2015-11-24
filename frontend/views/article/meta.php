@@ -1,1 +1,0 @@
-<?= $this->ck->date($article->publishDate, 'jS F Y') ?>
