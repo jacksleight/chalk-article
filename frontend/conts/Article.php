@@ -134,7 +134,7 @@ class Article extends Delegate
 
         $feed = new Feed(
             "{$this->home['name']} {$req->content->name}",
-            $this->url->route([], "article_main", true),
+            $this->url->route([], $this->module->name('main'), true),
             "{$this->chalk->config->name}",
             $articles[0]->publishDate);
 

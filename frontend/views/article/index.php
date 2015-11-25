@@ -5,7 +5,7 @@ $this->outer('/layouts/html', [
         [
             'rel'   => 'alternate',
             'type'  => 'application/atom+xml',
-            'href'  => $this->ck->url->route([], $this->ck->module('main_feed'), true),
+            'href'  => $this->ck->url->route([], $this->ck->module->name('main_feed'), true),
             'title' => "{$this->ck->home['name']} {$req->content->name}",
         ],
     ],
