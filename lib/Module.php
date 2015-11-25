@@ -29,6 +29,8 @@ class Module extends ChalkModule
         'extractLength' => 60,
     ];
 
+    protected $_hasRoutes = false;
+
     public function init()
     {
         $this
@@ -43,6 +45,9 @@ class Module extends ChalkModule
 
         $this
             ->frontendUrlResolver($this->name('article'), function($article, $info) {
+                if (!$this->_hasRoutes) {
+                    return false;
+                }
                 $date = $this->frontend->date(isset($article->publishDate) ? $article->publishDate : new \DateTime('today'));
                 return $this->frontend->url->route([
                     'year'      => $date->format('Y'),
@@ -84,6 +89,7 @@ class Module extends ChalkModule
 
     public function core_frontendInitNode($name, $node, $content, $params)
     {
+        $this->_hasRoutes = true;
         switch ($name) {
             case 'main':
                 $primary = $this->name("main");
