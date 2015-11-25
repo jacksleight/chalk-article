@@ -70,16 +70,12 @@ class Module extends ChalkModule
                     }
                     $sitemap->add(
                         $this->frontend->url->route([], $this->name('main'), true),
-                        $articles[0]['modifyDate'],
-                        Sitemap::CHANGEFREQ_ALWAYS,
-                        1
+                        $articles[0]['modifyDate']
                     );
                     foreach ($articles as $article) {
                         $sitemap->add(
                             $this->frontend->url($article),
-                            $article['modifyDate'],
-                            Sitemap::CHANGEFREQ_ALWAYS,
-                            1
+                            $article['modifyDate']
                         );
                     }
                     $categories = $this->em($this->name('article'))->categories();
@@ -88,9 +84,7 @@ class Module extends ChalkModule
                             $this->frontend->url->route([
                                 'category' => $category[0]['slug'],
                             ], $this->name('main_category'), true),
-                            $articles[0]['modifyDate'],
-                            Sitemap::CHANGEFREQ_ALWAYS,
-                            1
+                            $articles[0]['modifyDate']
                         );
                     }
                     $tags = $this->em($this->name('article'))->tags();
@@ -99,9 +93,7 @@ class Module extends ChalkModule
                             $this->frontend->url->route([
                                 'tag' => $tag[0]['slug'],
                             ], $this->name('main_tag'), true),
-                            $articles[0]['modifyDate'],
-                            Sitemap::CHANGEFREQ_ALWAYS,
-                            1
+                            $articles[0]['modifyDate']
                         );
                     }
                     return $sitemap;
