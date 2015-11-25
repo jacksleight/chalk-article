@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "jacksleight/chalk": "dev-dev"
+        "jacksleight/chalk": "0.5.*"
     },
     "autoload": {
         "psr-4": {
