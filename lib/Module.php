@@ -15,6 +15,7 @@ use Closure;
 use Coast\Request;
 use Coast\Response;
 use Coast\Router;
+use Coast\Sitemap;
 
 class Module extends ChalkModule
 {   
@@ -29,7 +30,7 @@ class Module extends ChalkModule
         'extractLength' => 60,
     ];
 
-    protected $_hasRoutes = false;
+    protected $_nodes = [];
 
     public function init()
     {
@@ -45,7 +46,7 @@ class Module extends ChalkModule
 
         $this
             ->frontendUrlResolver($this->name('article'), function($article, $info) {
-                if (!$this->_hasRoutes) {
+                if (!count($this->_nodes)) {
                     return false;
                 }
                 $date = $this->frontend->date(isset($article->publishDate) ? $article->publishDate : new \DateTime('today'));
@@ -56,6 +57,56 @@ class Module extends ChalkModule
                     'article'   => $article->slug,
                 ], $this->name("main_view"), true);
             });
+
+        if ($sitemap = $this->app->module('Chalk\Sitemap')) {
+            $this
+                ->frontendHookListen($sitemap->name('xml'), function(Sitemap $sitemap) {
+                    if (!count($this->_nodes)) {
+                        return $sitemap;
+                    }
+                    $articles = $this->em($this->name('article'))->all();
+                    if (!count($articles)) {
+                        return $sitemap;
+                    }
+                    $sitemap->add(
+                        $this->frontend->url->route([], $this->name('main'), true),
+                        $articles[0]['modifyDate'],
+                        Sitemap::CHANGEFREQ_ALWAYS,
+                        1
+                    );
+                    foreach ($articles as $article) {
+                        $sitemap->add(
+                            $this->frontend->url($article),
+                            $article['modifyDate'],
+                            Sitemap::CHANGEFREQ_ALWAYS,
+                            1
+                        );
+                    }
+                    $categories = $this->em($this->name('article'))->categories();
+                    foreach ($categories as $category) {
+                        $sitemap->add(
+                            $this->frontend->url->route([
+                                'category' => $category[0]['slug'],
+                            ], $this->name('main_category'), true),
+                            $articles[0]['modifyDate'],
+                            Sitemap::CHANGEFREQ_ALWAYS,
+                            1
+                        );
+                    }
+                    $tags = $this->em($this->name('article'))->tags();
+                    foreach ($tags as $tag) {
+                        $sitemap->add(
+                            $this->frontend->url->route([
+                                'tag' => $tag[0]['slug'],
+                            ], $this->name('main_tag'), true),
+                            $articles[0]['modifyDate'],
+                            Sitemap::CHANGEFREQ_ALWAYS,
+                            1
+                        );
+                    }
+                    return $sitemap;
+                });
+        }
     }
     
     public function backendInit()
@@ -89,7 +140,7 @@ class Module extends ChalkModule
 
     public function core_frontendInitNode($name, $node, $content, $params)
     {
-        $this->_hasRoutes = true;
+        $this->_nodes[] = $node;
         switch ($name) {
             case 'main':
                 $primary = $this->name("main");
