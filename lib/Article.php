@@ -63,13 +63,7 @@ class Article extends Content
     
     public function extract($length)
     {
-        $value = strip_tags($this->body);
-        if (str_word_count($value, 0) > $length) {
-            $words = str_word_count($value, 2);
-            $pos   = array_keys($words);
-            $value = substr($value, 0, $pos[$length] - 1) . '…';
-        }
-        return $value;
+        return \Coast\str_trim_words($this->body, $length, '…');
     }
     
     public function description($length)
