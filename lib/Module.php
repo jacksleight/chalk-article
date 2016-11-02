@@ -45,7 +45,7 @@ class Module extends ChalkModule
             ->frontendViewDir($this->name());
 
         $this
-            ->frontendUrlResolver($this->name('article'), function($article, $info) {
+            ->frontendResolver($this->name('article'), function($article, $info) {
                 if (!count($this->_nodes)) {
                     return false;
                 }
