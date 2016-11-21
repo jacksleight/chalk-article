@@ -23,6 +23,7 @@ class Module extends ChalkModule
 
     protected $_options = [
         'indexLimit'    => 5,
+        'searchLimit'   => 10,
         'archiveLimit'  => 10,
         'categoryLimit' => 10,
         'tagLimit'      => 10,
@@ -144,6 +145,14 @@ class Module extends ChalkModule
                         $params + [
                             'controller' => "article",
                             'action'     => 'index',
+                        ])
+                    ->frontendRoute(
+                        "{$primary}_search",
+                        Router::METHOD_ALL,
+                        "{$node['path']}/search",
+                        $params + [
+                            'controller' => "article",
+                            'action'     => 'search',
                         ])
                     ->frontendRoute(
                         "{$primary}_feed",

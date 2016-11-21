@@ -32,6 +32,24 @@ class Article extends Delegate
         ];
     }
 
+    public function search(Request $req, Response $res)
+    {
+        $limit = $this->module->option('searchLimit');
+        $page  = $req->page ?: 1;
+        $articles = $this->em($this->module->name('article'))->all([
+            'limit'  => $limit,
+            'page'   => $page,
+            'search' => $req->query,
+        ], [], Repository::FETCH_ALL_PAGED);
+
+        $req->view->articles   = $articles;
+        $req->view->pagination = (object) [
+            'limit' => $limit,
+            'page'  => (int) $page,
+            'pages' => (int) ceil($articles->count() / $limit),
+        ];
+    }
+
     public function archive(Request $req, Response $res)
     {
         $day   = $req->day   ?: 1;
