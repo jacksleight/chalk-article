@@ -16,7 +16,7 @@ if ($content->isNew() && !isset($content->author)) {
 	'entity'	=> $content,
 	'name'		=> 'image',
 	'label'		=> 'Image',
-	'filter'	=> 'core_image',
+	'filters'	=> 'core_image',
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',
