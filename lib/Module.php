@@ -19,7 +19,7 @@ use Coast\Sitemap;
 
 class Module extends ChalkModule
 {   
-    const VERSION = '0.5.0';
+    const VERSION = '0.5.1';
 
     protected $_options = [
         'indexLimit'    => 5,
