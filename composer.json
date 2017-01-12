@@ -10,13 +10,13 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "jacksleight/chalk": "0.5.*"
+        "jacksleight/chalk": "0.6.*"
     },
     "autoload": {
         "psr-4": {
-            "Chalk\\Article\\": "lib/",
-            "Chalk\\Article\\Backend\\Controller\\": "backend/conts/",
-            "Chalk\\Article\\Frontend\\Controller\\": "frontend/conts/"
+            "Chalk\\Article\\": "library/",
+            "Chalk\\Article\\Backend\\Controller\\": "backend/controllers/",
+            "Chalk\\Article\\Frontend\\Controller\\": "frontend/controllers/"
         }
     }
 }
