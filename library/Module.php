@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2015 Jack Sleight <http://jacksleight.com/>
+ * Copyright 2017 Jack Sleight <http://jacksleight.com/>
  * This source file is subject to the MIT license that is bundled with this package in the file LICENCE.md. 
  */
 
@@ -19,7 +19,7 @@ use Coast\Sitemap;
 
 class Module extends ChalkModule
 {   
-    const VERSION = '0.5.1';
+    const VERSION = '0.6.0';
 
     protected $_options = [
         'indexLimit'    => 5,
@@ -46,7 +46,7 @@ class Module extends ChalkModule
             ->frontendViewDir($this->name());
 
         $this
-            ->frontendUrlResolver($this->name('article'), function($article, $info) {
+            ->frontendResolver($this->name('article'), function($article, $info) {
                 if (!count($this->_nodes)) {
                     return false;
                 }
@@ -69,33 +69,30 @@ class Module extends ChalkModule
                     if (!count($articles)) {
                         return $sitemap;
                     }
-                    $sitemap->add(
-                        $this->frontend->url->route([], $this->name('main'), true),
-                        $articles[0]['modifyDate']
-                    );
+                    $sitemap->urls[] = (new Sitemap\Url())->fromArray([
+                        'url'        => $this->frontend->url->route([], $this->name('main'), true),
+                        'modifyDate' => $articles[0]['modifyDate'],
+                    ]);
                     foreach ($articles as $article) {
-                        $sitemap->add(
-                            $this->frontend->url($article),
-                            $article['modifyDate']
-                        );
+                        $sitemap->urls[] = (new Sitemap\Url())->fromArray([
+                            'url'        => $this->frontend->url($article),
+                            'modifyDate' => $article['modifyDate'],
+                        ]);
                     }
                     $categories = $this->em($this->name('article'))->categories();
                     foreach ($categories as $category) {
-                        $sitemap->add(
-                            $this->frontend->url->route([
-                                'category' => $category[0]['slug'],
-                            ], $this->name('main_category'), true),
-                            $articles[0]['modifyDate']
-                        );
+
+                        $sitemap->urls[] = (new Sitemap\Url())->fromArray([
+                            'url'        => $this->frontend->url->route(['category' => $category[0]['slug']], $this->name('main_category'), true),
+                            'modifyDate' => $articles[0]['modifyDate'],
+                        ]);
                     }
                     $tags = $this->em($this->name('article'))->tags();
                     foreach ($tags as $tag) {
-                        $sitemap->add(
-                            $this->frontend->url->route([
-                                'tag' => $tag[0]['slug'],
-                            ], $this->name('main_tag'), true),
-                            $articles[0]['modifyDate']
-                        );
+                        $sitemap->urls[] = (new Sitemap\Url())->fromArray([
+                            'url'        => $this->frontend->url->route(['tag' => $tag[0]['slug']], $this->name('main_tag'), true),
+                            'modifyDate' => $articles[0]['modifyDate'],
+                        ]);
                     }
                     return $sitemap;
                 });
