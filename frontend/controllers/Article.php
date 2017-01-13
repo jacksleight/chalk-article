@@ -154,6 +154,7 @@ class Article extends Delegate
         $feed->fromArray([
             'id'         => $this->url->route([], $this->module->name('main'), true),
             'url'        => $this->url->route([], $this->module->name('main'), true),
+            'urlFeed'    => $this->url->route([], $this->module->name('main_feed'), true),
             'title'      => "{$this->home['name']} {$req->content->name}",
             'updateDate' => count($articles) ? $articles[0]->publishDate : null,
             'author'     => ['name' => $this->chalk->config->name],
