@@ -150,21 +150,24 @@ class Article extends Delegate
             'limit' => $this->module->option('feedLimit'),
         ]);
 
-        $feed = new Feed(
-            "{$this->home['name']} {$req->content->name}",
-            $this->url->route([], $this->module->name('main'), true),
-            "{$this->chalk->config->name}",
-            $articles[0]->publishDate);
-
+        $feed = new Feed();
+        $feed->fromArray([
+            'id'         => $this->url->route([], $this->module->name('main'), true),
+            'url'        => $this->url->route([], $this->module->name('main'), true),
+            'title'      => "{$this->home['name']} {$req->content->name}",
+            'updateDate' => count($articles) ? $articles[0]->publishDate : null,
+            'author'     => ['name' => $this->chalk->config->name],
+        ]);
         foreach ($articles as $article) {
-            $feed->add(
-                $article->name,
-                $this->url($article),
-                $this->app->date($article->publishDate),
-                $article->description($this->module->option('extractLength')),
-                $this->parser->parse($article->body));
+            $feed->items[] = (new Feed\Item())->fromArray([
+                'id'         => $this->url($article),
+                'url'        => $this->url($article),
+                'title'      => $article->name,
+                'updateDate' => $this->app->date($article->publishDate),
+                'summary'    => ['content' => $article->description($this->module->option('extractLength'))],
+                'body'       => ['content' => $this->parser->parse($article->body)],
+            ]);
         }
-
         return $res->xml($feed->toXml(), 'atom');
     }
 }
