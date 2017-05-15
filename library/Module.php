@@ -10,6 +10,7 @@ use Chalk\Backend;
 use Chalk\Chalk;
 use Chalk\Event;
 use Chalk\InfoList;
+use Chalk\Core\NavList;
 use Chalk\Module as ChalkModule;
 use Closure;
 use Coast\Request;
@@ -117,13 +118,16 @@ class Module extends ChalkModule
 
         $this
             ->backendHookListen('core_contentList', function(InfoList $list) {
-                if ($list->filter() == 'core_main') {
-                    $list
-                        ->item($this->name('article'), []);
-                } else if ($list->filter() == 'core_link') {
+                if ($list->filter() == 'core_link') {
                     $list
                         ->item($this->name('article'), []);
                 }
+                return $list;
+            })
+            ->backendHookListen('core_navList', function(NavList $list) {
+                $list
+                    ->itemEntity($this->name('article'), [], 'core_site')
+                    ->itemEntity($this->name('category'), [], $this->name('article'));
                 return $list;
             });
     }

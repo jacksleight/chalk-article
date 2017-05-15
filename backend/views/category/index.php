@@ -1,7 +1,6 @@
-<?php if (!$req->isAjax()) { ?>
-	<?php $this->outer('/layout/page', [], 'core') ?>
-	<?php $this->block('main') ?>
-	<?php } ?>
+<?php $this->outer('layout/page_site', [], 'core') ?>
+<?php $this->block('main') ?>
+
 <?php
 $index = $this->em->wrap(new \Chalk\Core\Model\Index())
 	->graphFromArray($req->queryParams());
@@ -21,8 +20,6 @@ $tags = $this->em($info)
 			</li>
 		</ul>
 		<h1><?= $info->plural ?></h1>
-	</div>
-	<div class="flex body">
 		<div class="hanging">
 			<form action="<?= $this->url->route() ?>" class="submitable">
 				<ul class="toolbar">
@@ -37,6 +34,8 @@ $tags = $this->em($info)
 				</ul>
 			</form>
 		</div>
+	</div>
+	<div class="flex body">
 		<table>
 			<colgroup>
 				<col class="">

@@ -1,18 +1,8 @@
-<?php if (!$req->isAjax()) { ?>
-	<?php $this->outer('/layout/page', [], 'core') ?>
-	<?php $this->block('main') ?>
-<?php } ?>
+<?php $this->outer('layout/page_site', [], 'core') ?>
+<?php $this->block('main') ?>
 
 <form action="<?= $this->url->route() ?>" method="post" class="flex-col" data-modal-size="800x800">
 	<div class="header">
-		<ul class="toolbar toolbar-right">
-			<li><a href="<?= $this->url([
-				'action' => 'index',
-				'id'	 => null,
-			]) ?>" class="btn btn-out btn-lighter icon-arrow-left">
-				Back
-			</a></li>
-		</ul>
 		<h1>
 			<?php if (!$category->isNew()) { ?>
 				<?= $category->name ?>
