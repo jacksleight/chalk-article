@@ -1,6 +1,7 @@
 <?php
 return [
     'extensions' => [
-        'article'   => ['content', 'core'],
+        'article'  => ['content', 'core'],
+        'category' => ['crud', 'core'],
     ],
 ];

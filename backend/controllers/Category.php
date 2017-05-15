@@ -7,11 +7,11 @@
 namespace Chalk\Article\Backend\Controller;
 
 use Chalk\App as Chalk;
-use Chalk\Controller\Basic;
+use Chalk\Core\Backend\Controller\Crud;
 use Coast\Request;
 use Coast\Response;
 
-class Category extends Basic
+class Category extends Crud
 {
     protected $_entityClass = 'Chalk\Article\Category';
 }

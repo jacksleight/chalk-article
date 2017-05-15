@@ -22,6 +22,7 @@ class Category extends \Toast\Entity implements Trackable, Searchable
 {
     public static $chalkSingular = 'Category';
     public static $chalkPlural   = 'Categories';
+    public static $chalkIcon     = 'folder';
     
     use Trackable\Entity;
 

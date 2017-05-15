@@ -6,8 +6,7 @@
 
 namespace Chalk\Article\Model\Article;
 
-use Toast\Wrapper;
-use Chalk\Core\Model\Content\Index as ContentIndex;
+use Chalk\Core\Backend\Model\Content\Index as ContentIndex;
 use Chalk\App as Chalk;
 
 class Index extends ContentIndex
