@@ -4,20 +4,20 @@
 	</div>
 	<div class="form-items">
 		<?= $this->render('/element/form-item', array(
-			'entity'	=> $content,
+			'entity'	=> $entity,
 			'name'		=> 'categories',
 			'label'		=> 'Categories',
 		    'values'    => $this->em($this->module->name('category'))->all(),
 		), 'core') ?>
 		<?= $this->render('/element/form-item', array(
 		    'type'      => 'input_tag',
-			'entity'	=> $content,
+			'entity'	=> $entity,
 			'name'		=> 'tagsText',
 			'label'		=> 'Tags',
 		    'values'    => $this->em('core_tag')->all(),
 		), 'core') ?>
 		<?= $this->render('/element/form-item', array(
-			'entity'	=> $content,
+			'entity'	=> $entity,
 			'name'		=> 'author',
 			'label'		=> 'Author',
 			'type'		=> 'select',

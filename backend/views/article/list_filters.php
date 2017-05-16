@@ -1,10 +1,16 @@
 <?php
 $this->params([
-    'filterFields' => $filterFields = isset($filterFields) ? $filterFields : [
-        [
+    'filterFields' => $filterFields = (isset($filterFields) ? $filterFields : []) + [
+        'categories' => [
             'class'   => 'flex-2',
-            'style'   => null,
             'partial' => 'categories',
+            'sort'    => 70,
+        ],
+        'dateMin' => [
+            'class'   => 'flex-2',
+            'partial' => 'date-min',
+            'params'  => ['property' => 'publish', 'placeholder' => 'Published'],
+            'sort'    => 80,
         ],
     ],
 ]);

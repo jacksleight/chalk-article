@@ -1,11 +1,6 @@
-<?php
-if ($content->isNew() && !isset($content->author)) {
-	$content->author = $this->session->data('__Chalk\Backend')->user;
-}
-?>
 <?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',
-	'entity'	=> $content,
+	'entity'	=> $entity,
 	'name'		=> 'body',
 	'label'		=> 'Content',
 	'class'		=> 'monospaced editor-content',
@@ -13,14 +8,14 @@ if ($content->isNew() && !isset($content->author)) {
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
 	'type'		=> 'input_content',
-	'entity'	=> $content,
+	'entity'	=> $entity,
 	'name'		=> 'image',
 	'label'		=> 'Image',
 	'filters'	=> 'core_image',
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',
-	'entity'	=> $content,
+	'entity'	=> $entity,
 	'name'		=> 'summary',
 	'label'		=> 'Summary',
 	'class'		=> 'monospaced editor-content',

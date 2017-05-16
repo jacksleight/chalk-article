@@ -1,7 +1,7 @@
-<?php if (count($content->categories)) { ?>
+<?php if (count($entity->categories)) { ?>
     <?= implode(', ', array_map(function($category) {
         return $category->name;
-    }, $content->categories->toArray())) ?>
+    }, $entity->categories->toArray())) ?>
 <?php } else { ?>
     —
 <?php } ?>

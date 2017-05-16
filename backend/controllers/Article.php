@@ -12,5 +12,10 @@ use Coast\Response;
 
 class Article extends ChalkCoreContent
 {
-    protected $_entityClass = 'Chalk\Article\Article';    
+    protected $_entityClass = 'Chalk\Article\Article';
+
+    protected function _action_create(\Toast\Entity $entity)
+    {
+        $entity->author = $this->session->data('__Chalk\Backend')->user;
+    }
 }

@@ -1,17 +1,18 @@
 <?php
 $this->params([
-    'tableCols' => $tableCols = isset($tableCols) ? $tableCols : [
-        // [
-        //     'label'    => 'Categories',
-        //     'class'    => 'col-contract',
-        //     'partial'  => 'categories',
-        //     'style'    => 'max-width: 300px;',
-        // ],
+    'tableCols' => $tableCols = (isset($tableCols) ? $tableCols : []) + [
         [
+            'label'    => 'Categories',
+            'class'    => 'col-right col-contract',
+            'partial'  => 'categories',
+            'sort'     => 70,
+        ],
+        'date' => [
             'label'   => 'Published',
             'class'   => 'col-right col-contract',
             'partial' => 'date',
             'params'  => ['property' => 'publish'],
+            'sort'    => 80,
         ],
     ],
 ]);
