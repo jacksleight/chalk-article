@@ -7,6 +7,7 @@
 namespace Chalk\Article;
 
 use Chalk\Core;
+use Chalk\Core\Entity;
 use Chalk\Core\Behaviour\Trackable;
 use Chalk\Core\Behaviour\Searchable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,7 +19,7 @@ use Coast\Validator;
  *     uniqueConstraints={@UniqueConstraint(columns={"slug"})}
  * )
 */
-class Category extends \Toast\Entity implements Trackable, Searchable
+class Category extends Entity implements Trackable, Searchable
 {
     public static $chalkSingular = 'Category';
     public static $chalkPlural   = 'Categories';

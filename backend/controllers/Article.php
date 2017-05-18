@@ -6,6 +6,7 @@
 
 namespace Chalk\Article\Backend\Controller;
 
+use Chalk\Core\Entity;
 use Chalk\Core\Backend\Controller\Content as ChalkCoreContent;
 use Coast\Request;
 use Coast\Response;
@@ -14,7 +15,7 @@ class Article extends ChalkCoreContent
 {
     protected $_entityClass = 'Chalk\Article\Article';
 
-    protected function _action_create(\Toast\Entity $entity)
+    protected function _create(Entity $entity)
     {
         $entity->author = $this->session->data('__Chalk\Backend')->user;
     }
