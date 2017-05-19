@@ -16,7 +16,7 @@ class Article extends Content
         ['publishDate', 'DESC'],
     ];
 
-    public function build(array $params = array())
+    public function build(array $params = array(), $one = false)
     {
         $query = parent::build($params);
 
