@@ -18,6 +18,9 @@ class Article extends Content
     public static $chalkSingular = 'Article';
     public static $chalkPlural   = 'Articles';
     public static $chalkIcon     = 'newspaper';
+    public static $chalkIs       = [
+        'tagable' => true,
+    ];
 
     /**
      * @Column(type="text", nullable=true)
@@ -53,12 +56,12 @@ class Article extends Content
         $this->categories = new ArrayCollection();
     }
         
-    public function searchableContent()
+    public function searchContent(array $content = [])
     {
-        return array_merge(parent::searchableContent(), [
+        return parent::searchContent(array_merge([
             $this->summary,
             $this->body,
-        ]);
+        ], $content));
     }
     
     public function extract($length)

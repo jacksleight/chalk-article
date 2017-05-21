@@ -77,7 +77,7 @@ class Category extends Entity implements Trackable, Searchable
         return $this->slug;
     }
 
-    public function searchableContent()
+    public function searchContent(array $content = [])
     {
         return [
             $this->name,

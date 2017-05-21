@@ -126,8 +126,12 @@ class Module extends ChalkModule
             })
             ->backendHookListen('core_navList', function(NavList $list) {
                 $list
-                    ->itemEntity($this->name('article'), [], 'core_site')
-                    ->itemEntity($this->name('category'), [], $this->name('article'));
+                    ->itemEntity($this->name('article'), [
+                        'url' => ['name' => 'core_site'],
+                    ], 'core_site')
+                    ->itemEntity($this->name('category'), [
+                        'url' => ['name' => 'core_site'],
+                    ], $this->name('article'));
                 return $list;
             });
     }

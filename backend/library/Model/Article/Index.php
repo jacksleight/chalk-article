@@ -25,10 +25,10 @@ class Index extends ContentIndex
         ));
     }
 
-    public function rememberFields(array $fields = [])
+    public function remembers(array $remembers = [])
     {
-        return parent::rememberFields(array_merge([
+        return parent::remembers(array_merge([
             'categories',
-        ], $fields));
+        ], $remembers));
     }
 }

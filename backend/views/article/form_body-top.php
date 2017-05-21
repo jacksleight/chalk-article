@@ -1,3 +1,4 @@
+<?= $this->parent() ?>
 <?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',
 	'entity'	=> $entity,
@@ -20,4 +21,19 @@
 	'label'		=> 'Summary',
 	'class'		=> 'monospaced editor-content',
 	'rows'		=> 5,
+), 'core') ?>
+<?= $this->render('/element/form-item', array(
+	'entity'	=> $entity,
+	'name'		=> 'categories',
+	'label'		=> 'Categories',
+    'values'    => $this->em('article_category')->all(),
+    // 'values'    => $this->em($this->module->name('category'))->all(),
+), 'core') ?>
+<?= $this->render('/element/form-item', array(
+	'entity'	=> $entity,
+	'name'		=> 'author',
+	'label'		=> 'Author',
+	'type'		=> 'select',
+	'null'		=> 'None',
+	'values'	=> $this->em('core_user')->all(),
 ), 'core') ?>
