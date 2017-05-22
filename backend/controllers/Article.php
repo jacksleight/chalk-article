@@ -18,7 +18,7 @@ class Article extends ChalkCoreContent
 {
     protected $_entityClass = 'Chalk\Article\Article';
 
-    protected function _create(Request $req, Response $res, Entity $entity, Model $model = null)
+    protected function _create(Request $req, Response $res, Entity $entity)
     {
         $entity->author = $this->em->reference('core_user', $req->user->id);
     }

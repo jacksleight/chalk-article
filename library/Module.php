@@ -10,7 +10,7 @@ use Chalk\Backend;
 use Chalk\Chalk;
 use Chalk\Event;
 use Chalk\InfoList;
-use Chalk\Core\NavList;
+use Chalk\Core\Nav;
 use Chalk\Module as ChalkModule;
 use Closure;
 use Coast\Request;
@@ -111,9 +111,10 @@ class Module extends ChalkModule
                 $this->name('index'),
                 Router::METHOD_ALL,
                 $this->path("{controller}?/{action}?/{id}?"), [
-                    'group'  => $this->name(),
-                    'action' => 'index',
-                    'id'     => null,
+                    'group'      => $this->name(),
+                    'controller' => 'index',
+                    'action'     => 'index',
+                    'id'         => null,
                 ]);
 
         $this
@@ -124,14 +125,10 @@ class Module extends ChalkModule
                 }
                 return $list;
             })
-            ->backendHookListen('core_navList', function(NavList $list) {
+            ->backendHookListen('core_nav', function(Nav $list) {
                 $list
-                    ->itemEntity($this->name('article'), [
-                        'url' => ['name' => 'core_site'],
-                    ], 'core_site')
-                    ->itemEntity($this->name('category'), [
-                        'url' => ['name' => 'core_site'],
-                    ], $this->name('article'));
+                    ->entity($this->name('article'), [], 'core_site')
+                    ->entity($this->name('category'), [], $this->name('article'));
                 return $list;
             });
     }
