@@ -2,6 +2,6 @@
 return [
     'extensions' => [
         'article'  => ['content', 'core'],
-        'category' => ['crud', 'core'],
+        'category' => ['entity', 'core'],
     ],
 ];

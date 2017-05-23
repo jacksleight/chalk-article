@@ -3,7 +3,7 @@ $this->params([
     'tableCols' => $tableCols = (isset($tableCols) ? $tableCols : []) + [
         'name' => [
             'label'   => 'Name',
-            'partial' => 'name',
+            'partial' => 'preview',
             'sort'    => 10,
         ],
     ],
