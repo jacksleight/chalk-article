@@ -9,7 +9,7 @@ namespace Chalk\Article;
 use Chalk\Backend;
 use Chalk\Chalk;
 use Chalk\Event;
-use Chalk\InfoList;
+use Chalk\Info;
 use Chalk\Core\Nav;
 use Chalk\Module as ChalkModule;
 use Closure;
@@ -118,7 +118,7 @@ class Module extends ChalkModule
                 ]);
 
         $this
-            ->backendHookListen('core_contentList', function(InfoList $list) {
+            ->backendHookListen('core_contentList', function(Info $list) {
                 if ($list->filter() == 'core_link') {
                     $list
                         ->item($this->name('article'), []);
