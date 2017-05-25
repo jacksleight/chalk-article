@@ -6,12 +6,12 @@ $this->params([
             'partial' => 'categories',
             'sort'    => 70,
         ],
-        'dateMin' => [
-            'class'   => 'flex-2',
-            'partial' => 'date-min',
-            'params'  => ['property' => 'publish', 'placeholder' => 'Published'],
-            'sort'    => 80,
-        ],
+        // 'dateMin' => [
+        //     'class'   => 'flex-2',
+        //     'partial' => 'date-min',
+        //     'params'  => ['property' => 'publish', 'placeholder' => 'Published'],
+        //     'sort'    => 80,
+        // ],
     ],
 ]);
 ?>

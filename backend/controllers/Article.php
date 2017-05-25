@@ -9,7 +9,7 @@ namespace Chalk\Article\Backend\Controller;
 use Chalk\Chalk;
 use Chalk\Core\Backend\Controller\Content as ChalkCoreContent;
 use Chalk\Core\Backend\Model;
-use Chalk\Core\Entity;
+use Chalk\Entity;
 use Coast\Controller\Action;
 use Coast\Request;
 use Coast\Response;
@@ -20,6 +20,6 @@ class Article extends ChalkCoreContent
 
     protected function _create(Request $req, Response $res, Entity $entity)
     {
-        $entity->author = $this->em->reference('core_user', $req->user->id);
+        $entity->author = $this->em->ref('core_user', $req->user->id);
     }
 }
