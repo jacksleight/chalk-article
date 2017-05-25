@@ -8,7 +8,7 @@
 	'rows'		=> 20,
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
-	'type'		=> 'input_content',
+	'type'		=> 'input_chalk',
 	'entity'	=> $entity,
 	'name'		=> 'image',
 	'label'		=> 'Image',
