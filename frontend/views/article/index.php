@@ -1,5 +1,6 @@
 <?php
 $this->outer('/layouts/html', [
+    'jump'  => 'article_article',
     'title' => $title = "{$content->name}",
     'links' => [
         [

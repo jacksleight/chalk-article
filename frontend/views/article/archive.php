@@ -5,6 +5,7 @@ $formats = [
     'year'  => 'Y',
 ];
 $this->outer('/layouts/html', [
+    'jump'  => 'article_article',
     'title' => $title = "{$this->ck->date($archive->date)->format($formats[$archive->type])} {$content->name}",
 ], '__Chalk__core');
 ?>
