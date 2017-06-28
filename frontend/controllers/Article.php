@@ -157,13 +157,14 @@ class Article extends Delegate
             'urlFeed'    => $this->url->route([], $this->module->name('main_feed'), true),
             'title'      => "{$this->home['name']} {$req->content->name}",
             'updateDate' => count($articles) ? $articles[0]->publishDate : null,
-            'author'     => ['name' => $this->chalk->config->name],
+            'author'     => ['name' => $this->domain['label']],
         ]);
         foreach ($articles as $article) {
             $feed->items[] = (new Feed\Item())->fromArray([
                 'id'         => $this->url($article),
                 'url'        => $this->url($article),
                 'title'      => $article->name,
+                'author'     => isset($article->author) ? ['name' => $article->author->name] : null,
                 'updateDate' => $this->app->date($article->publishDate),
                 'summary'    => ['content' => $article->description($this->module->option('extractLength'))],
                 'body'       => ['content' => $this->parser->parse($article->body)],
