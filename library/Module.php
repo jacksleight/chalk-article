@@ -72,12 +72,12 @@ class Module extends ChalkModule
                     }
                     $sitemap->urls[] = (new Sitemap\Url())->fromArray([
                         'url'        => $this->frontend->url->route([], $this->name('main'), true),
-                        'modifyDate' => $articles[0]['modifyDate'],
+                        'updateDate' => $articles[0]['updateDate'],
                     ]);
                     foreach ($articles as $article) {
                         $sitemap->urls[] = (new Sitemap\Url())->fromArray([
                             'url'        => $this->frontend->url($article),
-                            'modifyDate' => $article['modifyDate'],
+                            'updateDate' => $article['updateDate'],
                         ]);
                     }
                     $categories = $this->em($this->name('article'))->categories();
@@ -85,14 +85,14 @@ class Module extends ChalkModule
 
                         $sitemap->urls[] = (new Sitemap\Url())->fromArray([
                             'url'        => $this->frontend->url->route(['category' => $category[0]['slug']], $this->name('main_category'), true),
-                            'modifyDate' => $articles[0]['modifyDate'],
+                            'updateDate' => $articles[0]['updateDate'],
                         ]);
                     }
                     $tags = $this->em($this->name('article'))->tags();
                     foreach ($tags as $tag) {
                         $sitemap->urls[] = (new Sitemap\Url())->fromArray([
                             'url'        => $this->frontend->url->route(['tag' => $tag[0]['slug']], $this->name('main_tag'), true),
-                            'modifyDate' => $articles[0]['modifyDate'],
+                            'updateDate' => $articles[0]['updateDate'],
                         ]);
                     }
                     return $sitemap;

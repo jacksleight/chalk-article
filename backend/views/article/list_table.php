@@ -11,7 +11,7 @@ $this->params([
             'label'   => 'Published',
             'class'   => 'col-right col-contract',
             'partial' => 'date',
-            'params'  => ['property' => 'publish'],
+            'params'  => ['name' => 'publish'],
             'sort'    => 80,
         ],
     ],
