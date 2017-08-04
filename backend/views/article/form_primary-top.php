@@ -12,7 +12,7 @@
 	'entity'	=> $entity,
 	'name'		=> 'image',
 	'label'		=> 'Image',
-	'filters'	=> 'core_image',
+	'filters'	=> 'core_info_image',
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',

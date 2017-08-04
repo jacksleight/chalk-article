@@ -120,7 +120,7 @@ class Module extends ChalkModule
 
         $this
             ->backendHookListen('core_contentList', function(Info $list) {
-                if ($list->filter() == 'core_link') {
+                if ($list->filter() == 'core_info_link') {
                     $list
                         ->item('article_article', []);
                 }
