@@ -4,5 +4,5 @@
     'name'          => 'categories',
     'icon'          => 'icon-folder',
     'placeholder'   => 'Categories',
-    'values'        => $this->em($this->module->name('category'))->all(),
+    'values'        => $this->em('article_category')->all(),
 ), 'core') ?>

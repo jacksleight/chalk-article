@@ -20,6 +20,7 @@ use Coast\Sitemap;
 
 class Module extends ChalkModule
 {   
+    const NAME    = 'article';
     const VERSION = '0.6.1';
 
     protected $_options = [
@@ -37,17 +38,17 @@ class Module extends ChalkModule
     public function init()
     {
         $this
-            ->entityDir($this->name());
+            ->entityDir('article');
     }
     
     public function frontendInit()
     {
         $this
-            ->frontendControllerNspace($this->name())
-            ->frontendViewDir($this->name());
+            ->frontendControllerNspace('article')
+            ->frontendViewDir('article');
 
         $this
-            ->frontendResolver($this->name('article'), function($article, $info) {
+            ->frontendResolver('article_article', function($article, $info) {
                 if (!count($this->_nodes)) {
                     return false;
                 }
@@ -57,21 +58,21 @@ class Module extends ChalkModule
                     'month'     => $date->format('m'),
                     'day'       => $date->format('d'),
                     'article'   => $article->slug,
-                ], $this->name("main_view"), true);
+                ], 'article_main_view', true);
             });
 
-        if ($sitemap = $this->app->module('Chalk\Sitemap')) {
+        if ($this->app->module('sitemap')) {
             $this
-                ->frontendHookListen($sitemap->name('xml'), function(Sitemap $sitemap) {
+                ->frontendHookListen('sitemap_xml', function(Sitemap $sitemap) {
                     if (!count($this->_nodes)) {
                         return $sitemap;
                     }
-                    $articles = $this->em($this->name('article'))->all();
+                    $articles = $this->em('article_article')->all();
                     if (!count($articles)) {
                         return $sitemap;
                     }
                     $sitemap->urls[] = (new Sitemap\Url())->fromArray([
-                        'url'        => $this->frontend->url->route([], $this->name('main'), true),
+                        'url'        => $this->frontend->url->route([], 'article_main', true),
                         'updateDate' => $articles[0]['updateDate'],
                     ]);
                     foreach ($articles as $article) {
@@ -80,18 +81,18 @@ class Module extends ChalkModule
                             'updateDate' => $article['updateDate'],
                         ]);
                     }
-                    $categories = $this->em($this->name('article'))->categories();
+                    $categories = $this->em('article_article')->categories();
                     foreach ($categories as $category) {
 
                         $sitemap->urls[] = (new Sitemap\Url())->fromArray([
-                            'url'        => $this->frontend->url->route(['category' => $category[0]['slug']], $this->name('main_category'), true),
+                            'url'        => $this->frontend->url->route(['category' => $category[0]['slug']], 'article_main_category', true),
                             'updateDate' => $articles[0]['updateDate'],
                         ]);
                     }
-                    $tags = $this->em($this->name('article'))->tags();
+                    $tags = $this->em('article_article')->tags();
                     foreach ($tags as $tag) {
                         $sitemap->urls[] = (new Sitemap\Url())->fromArray([
-                            'url'        => $this->frontend->url->route(['tag' => $tag[0]['slug']], $this->name('main_tag'), true),
+                            'url'        => $this->frontend->url->route(['tag' => $tag[0]['slug']], 'article_main_tag', true),
                             'updateDate' => $articles[0]['updateDate'],
                         ]);
                     }
@@ -103,15 +104,15 @@ class Module extends ChalkModule
     public function backendInit()
     {
         $this
-            ->backendControllerNspace($this->name())
-            ->backendViewDir($this->name());
+            ->backendControllerNspace('article')
+            ->backendViewDir('article');
 
         $this
             ->backendRoute(
-                $this->name('index'),
+                'article_index',
                 Router::METHOD_ALL,
                 $this->path("{controller}?/{action}?/{id}?"), [
-                    'group'      => $this->name(),
+                    'group'      => 'article',
                     'controller' => 'index',
                     'action'     => 'index',
                     'id'         => null,
@@ -121,14 +122,14 @@ class Module extends ChalkModule
             ->backendHookListen('core_contentList', function(Info $list) {
                 if ($list->filter() == 'core_link') {
                     $list
-                        ->item($this->name('article'), []);
+                        ->item('article_article', []);
                 }
                 return $list;
             })
             ->backendHookListen('core_nav', function(Nav $list) {
                 $list
-                    ->entity($this->name('article'), [], 'core_site')
-                    ->entity($this->name('category'), [], $this->name('article'));
+                    ->entity('article_article', [], 'core_site')
+                    ->entity('article_category', [], 'article_article');
                 return $list;
             });
     }
@@ -138,7 +139,7 @@ class Module extends ChalkModule
         $this->_nodes[] = $node;
         switch ($name) {
             case 'main':
-                $primary = $this->name("main");
+                $primary = 'article_main';
                 $this
                     ->frontendRoute(
                         "{$primary}",

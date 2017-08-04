@@ -27,7 +27,6 @@
 	'name'		=> 'categories',
 	'label'		=> 'Categories',
     'values'    => $this->em('article_category')->all(),
-    // 'values'    => $this->em($this->module->name('category'))->all(),
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
 	'entity'	=> $entity,

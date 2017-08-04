@@ -19,7 +19,7 @@ class Article extends Delegate
     {
         $limit = $this->module->option('indexLimit');
         $page  = $req->page ?: 1;
-        $articles = $this->em($this->module->name('article'))->all([
+        $articles = $this->em('article_article')->all([
             'limit' => $limit,
             'page'  => $page,
         ], [], Repository::FETCH_ALL_PAGED);
@@ -36,7 +36,7 @@ class Article extends Delegate
     {
         $limit = $this->module->option('searchLimit');
         $page  = $req->page ?: 1;
-        $articles = $this->em($this->module->name('article'))->all([
+        $articles = $this->em('article_article')->all([
             'limit'  => $limit,
             'page'   => $page,
             'search' => $req->query,
@@ -68,7 +68,7 @@ class Article extends Delegate
 
         $limit = $this->module->option('archiveLimit');
         $page  = $req->page ?: 1;
-        $articles = $this->em($this->module->name('article'))->all([
+        $articles = $this->em('article_article')->all([
             'publishDateMin' => $min,
             'publishDateMax' => $max,
             'limit'          => $limit,
@@ -91,11 +91,11 @@ class Article extends Delegate
 
     public function category(Request $req, Response $res)
     {
-        $category = $this->em($this->module->name('category'))->slug($req->category);
+        $category = $this->em('article_category')->slug($req->category);
 
         $limit = $this->module->option('categoryLimit');
         $page  = $req->page ?: 1;
-        $articles = $this->em($this->module->name('article'))->all([
+        $articles = $this->em('article_article')->all([
             'categories' => [$category],
             'limit'      => $limit,
             'page'       => $page,
@@ -116,7 +116,7 @@ class Article extends Delegate
 
         $limit = $this->module->option('tagLimit');
         $page  = $req->page ?: 1;
-        $articles = $this->em($this->module->name('article'))->all([
+        $articles = $this->em('article_article')->all([
             'tags'  => [$tag],
             'limit' => $limit,
             'page'  => $page,
@@ -133,7 +133,7 @@ class Article extends Delegate
 
     public function view(Request $req, Response $res)
     {
-        $article = $this->em($this->module->name('article'))->one([
+        $article = $this->em('article_article')->one([
             'slugs'       => [$req->article],
             'isPublished' => isset($this->session->data('__Chalk\Backend')->user) ? null : true,
         ]);
@@ -146,24 +146,25 @@ class Article extends Delegate
 
     public function feed(Request $req, Response $res)
     {
-        $articles = $this->em($this->module->name('article'))->all([
+        $articles = $this->em('article_article')->all([
             'limit' => $this->module->option('feedLimit'),
         ]);
 
         $feed = new Feed();
         $feed->fromArray([
-            'id'         => $this->url->route([], $this->module->name('main'), true),
-            'url'        => $this->url->route([], $this->module->name('main'), true),
-            'urlFeed'    => $this->url->route([], $this->module->name('main_feed'), true),
+            'id'         => $this->url->route([], 'article_main', true),
+            'url'        => $this->url->route([], 'article_main', true),
+            'urlFeed'    => $this->url->route([], 'article_main_feed', true),
             'title'      => "{$this->home['name']} {$req->content->name}",
             'updateDate' => count($articles) ? $articles[0]->publishDate : null,
-            'author'     => ['name' => $this->chalk->config->name],
+            'author'     => ['name' => $this->domain['label']],
         ]);
         foreach ($articles as $article) {
             $feed->items[] = (new Feed\Item())->fromArray([
                 'id'         => $this->url($article),
                 'url'        => $this->url($article),
                 'title'      => $article->name,
+                'author'     => isset($article->author) ? ['name' => $article->author->name] : null,
                 'updateDate' => $this->app->date($article->publishDate),
                 'summary'    => ['content' => $article->description($this->module->option('extractLength'))],
                 'body'       => ['content' => $this->parser->parse($article->body)],
