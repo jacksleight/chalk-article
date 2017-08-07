@@ -15,3 +15,7 @@
 ### 0.6.1
 
 * Bug fixes
+
+### 0.7.0
+
+* Update to lastest Chalk
