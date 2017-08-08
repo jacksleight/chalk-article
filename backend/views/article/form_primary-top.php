@@ -8,19 +8,19 @@
 	'rows'		=> 20,
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
-	'type'		=> 'input_chalk',
-	'entity'	=> $entity,
-	'name'		=> 'image',
-	'label'		=> 'Image',
-	'filters'	=> 'core_info_image',
-), 'core') ?>
-<?= $this->render('/element/form-item', array(
 	'type'		=> 'textarea',
 	'entity'	=> $entity,
 	'name'		=> 'summary',
 	'label'		=> 'Summary',
 	'class'		=> 'monospaced editor-content',
 	'rows'		=> 5,
+), 'core') ?>
+<?= $this->render('/element/form-item', array(
+	'type'		=> 'input_chalk',
+	'entity'	=> $entity,
+	'name'		=> 'image',
+	'label'		=> 'Image',
+	'filters'	=> 'core_info_image',
 ), 'core') ?>
 <?= $this->render('/element/form-item', array(
 	'entity'	=> $entity,
