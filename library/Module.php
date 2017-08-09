@@ -21,7 +21,7 @@ use Coast\Sitemap;
 class Module extends ChalkModule
 {   
     const NAME    = 'article';
-    const VERSION = '0.7.0';
+    const VERSION = '0.7.1';
 
     protected $_options = [
         'indexLimit'    => 5,
