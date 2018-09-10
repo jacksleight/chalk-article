@@ -20,6 +20,6 @@ class Article extends ChalkCoreContent
 
     protected function _create(Request $req, Response $res, Entity $entity)
     {
-        $entity->author = $this->em->ref('core_user', $req->user->id);
+        $entity->author = $this->em->ref('core_user', $this->user->id);
     }
 }
